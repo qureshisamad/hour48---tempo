@@ -131,7 +131,7 @@ export default function LandingPage() {
                     Sign In
                   </Button>
                 </Link>
-                <Link to="/signup">
+                <Link to="/user-type">
                   <Button className="rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-sm px-4 shadow-sm">
                     Get Started
                   </Button>
@@ -159,12 +159,12 @@ export default function LandingPage() {
                 Book appointments in minutes, not days.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/signup">
+                <Link to="/services">
                   <Button className="rounded-lg bg-blue-600 text-white hover:bg-blue-700 px-8 py-6 text-base font-medium shadow-md">
                     Book a Service
                   </Button>
                 </Link>
-                <Link to="/">
+                <Link to="/technicians">
                   <Button
                     variant="outline"
                     className="rounded-lg border-blue-200 text-blue-600 hover:bg-blue-50 px-8 py-6 text-base font-medium"
@@ -399,7 +399,7 @@ export default function LandingPage() {
                   Our experts can help determine the right service for your
                   home's specific needs.
                 </p>
-                <Link to="/signup">
+                <Link to="/user-type">
                   <Button className="bg-white text-blue-600 hover:bg-blue-50 rounded-lg">
                     Schedule a Consultation
                   </Button>
@@ -474,7 +474,7 @@ export default function LandingPage() {
               ))}
             </div>
             <div className="text-center mt-10">
-              <Link to="/">
+              <Link to="/technicians">
                 <Button
                   variant="outline"
                   className="rounded-lg border-blue-200 text-blue-600 hover:bg-blue-50 px-6 py-2"
@@ -546,17 +546,17 @@ export default function LandingPage() {
               Book your HVAC cleaning service today and breathe easier tomorrow.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/signup">
+              <Link to="/services">
                 <Button className="rounded-lg bg-white text-blue-600 hover:bg-blue-50 px-8 py-6 text-base font-medium shadow-md">
                   Book a Service
                 </Button>
               </Link>
-              <Link to="/">
+              <Link to="/technicians">
                 <Button
                   variant="outline"
                   className="rounded-lg border-white text-white hover:bg-blue-700 px-8 py-6 text-base font-medium"
                 >
-                  Contact Us
+                  View Technicians
                 </Button>
               </Link>
             </div>

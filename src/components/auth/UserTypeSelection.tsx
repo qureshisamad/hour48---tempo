@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { User, Wrench } from "lucide-react";
 import AuthLayout from "./AuthLayout";
 
@@ -10,12 +10,14 @@ export default function UserTypeSelection() {
     "client" | "technician" | null
   >(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const handleContinue = () => {
     if (selectedType === "client") {
-      navigate("/signup", { state: { userType: "client" } });
+      navigate("/signup", { state: { userType: "client", from } });
     } else if (selectedType === "technician") {
-      navigate("/signup", { state: { userType: "technician" } });
+      navigate("/signup", { state: { userType: "technician", from } });
     }
   };
 
@@ -71,12 +73,13 @@ export default function UserTypeSelection() {
 
         <div className="text-sm text-center text-gray-600 mt-6">
           Already have an account?{" "}
-          <a
-            href="/login"
+          <Link
+            to="/login"
+            state={{ from }}
             className="text-blue-600 hover:underline font-medium"
           >
             Sign in
-          </a>
+          </Link>
         </div>
       </div>
     </AuthLayout>

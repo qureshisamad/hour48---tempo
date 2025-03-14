@@ -2,7 +2,13 @@ import { useState } from "react";
 import TechnicianCard, { TechnicianProps } from "./TechnicianCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Search, SlidersHorizontal } from "lucide-react";
 
@@ -22,7 +28,7 @@ const defaultTechnicians: TechnicianProps[] = [
     experience: "8+ years",
     bio: "HVAC Specialist with 8+ years of experience in residential and commercial systems.",
     available: true,
-    nextAvailable: "Tomorrow"
+    nextAvailable: "Tomorrow",
   },
   {
     id: "2",
@@ -35,7 +41,7 @@ const defaultTechnicians: TechnicianProps[] = [
     experience: "5+ years",
     bio: "Specialized in residential HVAC cleaning with a focus on improving indoor air quality.",
     available: true,
-    nextAvailable: "Today"
+    nextAvailable: "Today",
   },
   {
     id: "3",
@@ -48,7 +54,7 @@ const defaultTechnicians: TechnicianProps[] = [
     experience: "10+ years",
     bio: "Expert in commercial HVAC systems with extensive experience in large building maintenance.",
     available: false,
-    nextAvailable: "In 2 days"
+    nextAvailable: "In 2 days",
   },
   {
     id: "4",
@@ -61,7 +67,7 @@ const defaultTechnicians: TechnicianProps[] = [
     experience: "3+ years",
     bio: "Dedicated to providing thorough cleaning services with a specialty in sanitization techniques.",
     available: true,
-    nextAvailable: "Tomorrow"
+    nextAvailable: "Tomorrow",
   },
   {
     id: "5",
@@ -74,7 +80,7 @@ const defaultTechnicians: TechnicianProps[] = [
     experience: "7+ years",
     bio: "Specializing in emergency HVAC services and preventative maintenance for residential systems.",
     available: false,
-    nextAvailable: "Next week"
+    nextAvailable: "Next week",
   },
   {
     id: "6",
@@ -87,11 +93,13 @@ const defaultTechnicians: TechnicianProps[] = [
     experience: "6+ years",
     bio: "Focused on providing comprehensive HVAC cleaning solutions for families and homeowners.",
     available: true,
-    nextAvailable: "Today"
-  }
+    nextAvailable: "Today",
+  },
 ];
 
-export default function TechnicianGrid({ technicians = defaultTechnicians }: TechnicianGridProps) {
+export default function TechnicianGrid({
+  technicians = defaultTechnicians,
+}: TechnicianGridProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [minRating, setMinRating] = useState([4]);
@@ -99,33 +107,44 @@ export default function TechnicianGrid({ technicians = defaultTechnicians }: Tec
   const [availabilityFilter, setAvailabilityFilter] = useState<string>("");
 
   // Filter technicians based on search and filters
-  const filteredTechnicians = technicians.filter(tech => {
+  const filteredTechnicians = technicians.filter((tech) => {
     // Search filter
-    const matchesSearch = searchTerm === "" || 
+    const matchesSearch =
+      searchTerm === "" ||
       tech.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tech.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tech.specialties.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()));
-    
+      tech.specialties.some((s) =>
+        s.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+
     // Rating filter
     const matchesRating = tech.rating >= minRating[0];
-    
+
     // Service filter
-    const matchesService = selectedService === "" || 
-      tech.specialties.some(s => s.toLowerCase() === selectedService.toLowerCase());
-    
+    const matchesService =
+      selectedService === "" ||
+      tech.specialties.some(
+        (s) => s.toLowerCase() === selectedService.toLowerCase(),
+      );
+
     // Availability filter
-    const matchesAvailability = availabilityFilter === "" ||
+    const matchesAvailability =
+      availabilityFilter === "" ||
       (availabilityFilter === "available" && tech.available) ||
       (availabilityFilter === "unavailable" && !tech.available);
-    
-    return matchesSearch && matchesRating && matchesService && matchesAvailability;
+
+    return (
+      matchesSearch && matchesRating && matchesService && matchesAvailability
+    );
   });
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">Find a Technician</h2>
-        
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">
+          Find a Technician
+        </h2>
+
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
@@ -136,8 +155,8 @@ export default function TechnicianGrid({ technicians = defaultTechnicians }: Tec
               className="pl-10 h-12 rounded-lg"
             />
           </div>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="h-12 rounded-lg border-blue-200 text-blue-600 hover:bg-blue-50 flex items-center gap-2"
             onClick={() => setShowFilters(!showFilters)}
           >
@@ -145,11 +164,13 @@ export default function TechnicianGrid({ technicians = defaultTechnicians }: Tec
             Filters
           </Button>
         </div>
-        
+
         {showFilters && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-gray-50 rounded-xl mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Minimum Rating</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Minimum Rating
+              </label>
               <div className="flex items-center gap-4">
                 <Slider
                   value={minRating}
@@ -159,13 +180,20 @@ export default function TechnicianGrid({ technicians = defaultTechnicians }: Tec
                   onValueChange={setMinRating}
                   className="flex-1"
                 />
-                <span className="text-sm font-medium bg-white px-2 py-1 rounded border">{minRating[0]}</span>
+                <span className="text-sm font-medium bg-white px-2 py-1 rounded border">
+                  {minRating[0]}
+                </span>
               </div>
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Service Type</label>
-              <Select value={selectedService} onValueChange={setSelectedService}>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Service Type
+              </label>
+              <Select
+                value={selectedService}
+                onValueChange={setSelectedService}
+              >
                 <SelectTrigger className="h-10 rounded-lg">
                   <SelectValue placeholder="All Services" />
                 </SelectTrigger>
@@ -174,15 +202,22 @@ export default function TechnicianGrid({ technicians = defaultTechnicians }: Tec
                   <SelectItem value="air ducts">Air Ducts</SelectItem>
                   <SelectItem value="furnace">Furnace</SelectItem>
                   <SelectItem value="dryer vents">Dryer Vents</SelectItem>
-                  <SelectItem value="hvac maintenance">HVAC Maintenance</SelectItem>
+                  <SelectItem value="hvac maintenance">
+                    HVAC Maintenance
+                  </SelectItem>
                   <SelectItem value="sanitization">Sanitization</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Availability</label>
-              <Select value={availabilityFilter} onValueChange={setAvailabilityFilter}>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Availability
+              </label>
+              <Select
+                value={availabilityFilter}
+                onValueChange={setAvailabilityFilter}
+              >
                 <SelectTrigger className="h-10 rounded-lg">
                   <SelectValue placeholder="Any Availability" />
                 </SelectTrigger>
@@ -195,9 +230,11 @@ export default function TechnicianGrid({ technicians = defaultTechnicians }: Tec
             </div>
           </div>
         )}
-        
+
         <div className="flex justify-between items-center">
-          <p className="text-gray-600">{filteredTechnicians.length} technicians found</p>
+          <p className="text-gray-600">
+            {filteredTechnicians.length} technicians found
+          </p>
           <Select defaultValue="rating">
             <SelectTrigger className="w-[180px] h-9 text-sm">
               <SelectValue placeholder="Sort by" />
@@ -210,21 +247,35 @@ export default function TechnicianGrid({ technicians = defaultTechnicians }: Tec
           </Select>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredTechnicians.map((technician) => (
           <TechnicianCard key={technician.id} {...technician} />
         ))}
       </div>
-      
+
       {filteredTechnicians.length === 0 && (
         <div className="text-center py-12">
-          <h3 className="text-xl font-medium text-gray-900 mb-2">No technicians found</h3>
-          <p className="text-gray-600 mb-6">Try adjusting your search or filters to find available technicians.</p>
-          <Button 
-            variant="outline" 
+          <h3 className="text-xl font-medium text-gray-900 mb-2">
+            No technicians found
+          </h3>
+          <p className="text-gray-600 mb-6">
+            Try adjusting your search or filters to find available technicians.
+          </p>
+          <Button
+            variant="outline"
             className="rounded-lg border-blue-200 text-blue-600 hover:bg-blue-50"
             onClick={() => {
               setSearchTerm("");
               setMinRating([4]);
-              setSelectedService("
+              setSelectedService("");
+              setAvailabilityFilter("");
+            }}
+          >
+            Reset Filters
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}

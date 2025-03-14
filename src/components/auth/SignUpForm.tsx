@@ -1,29 +1,67 @@
 import { useState } from "react";
-import { useAuth } from "../../../supabase/auth";
+import { supabase } from "../../../supabase/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 import AuthLayout from "./AuthLayout";
 
 export default function SignUpForm() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { signUp } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { toast } = useToast();
   const userType = location.state?.userType || "client";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     try {
-      await signUp(email, password, fullName);
-      navigate("/dashboard");
+      // Create user with OTP verification
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+            user_type: userType,
+          },
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Verification email sent",
+        description: "Please check your email for the verification code",
+      });
+
+      // Navigate to OTP verification page
+      navigate("/verify-otp", {
+        state: {
+          email,
+          userType,
+          fullName,
+        },
+      });
     } catch (error) {
       console.error("Signup error:", error);
       setError("Error creating account: " + (error as Error).message);
+      toast({
+        title: "Signup Failed",
+        description: (error as Error).message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,9 +127,10 @@ export default function SignUpForm() {
 
           <Button
             type="submit"
+            disabled={loading}
             className="w-full h-12 rounded-full bg-black text-white hover:bg-gray-800 text-sm font-medium"
           >
-            Create account
+            {loading ? "Creating account..." : "Create account"}
           </Button>
 
           <div className="text-xs text-center text-gray-500 mt-6">

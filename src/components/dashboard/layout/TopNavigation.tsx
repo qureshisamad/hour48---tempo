@@ -15,7 +15,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Bell, Home, Search, Settings, User } from "lucide-react";
+import {
+  Bell,
+  Home,
+  Search,
+  Settings,
+  User,
+  Users,
+  Wrench,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../../supabase/auth";
 
@@ -25,7 +33,7 @@ interface TopNavigationProps {
 }
 
 const TopNavigation = ({
-  onSearch = () => { },
+  onSearch = () => {},
   notifications = [
     { id: "1", title: "New project assigned" },
     { id: "2", title: "Meeting reminder" },
@@ -38,13 +46,39 @@ const TopNavigation = ({
   return (
     <div className="w-full h-16 border-b border-gray-200 bg-white/80 backdrop-blur-md flex items-center justify-between px-6 fixed top-0 z-50 shadow-sm">
       <div className="flex items-center gap-4 flex-1">
-        <Link to="/" className="text-gray-900 hover:text-gray-700 transition-colors">
+        <Link
+          to="/"
+          className="text-gray-900 hover:text-gray-700 transition-colors"
+        >
           <Home className="h-5 w-5" />
         </Link>
-        <div className="relative w-64">
+        <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <Link
+            to="/dashboard"
+            className="text-gray-700 hover:text-blue-600 transition-colors"
+          >
+            Dashboard
+          </Link>
+          <Link
+            to="/technicians"
+            className="text-gray-700 hover:text-blue-600 transition-colors"
+          >
+            <div className="flex items-center gap-1">
+              <Wrench className="h-4 w-4" />
+              <span>Technicians</span>
+            </div>
+          </Link>
+          <Link
+            to="/services"
+            className="text-gray-700 hover:text-blue-600 transition-colors"
+          >
+            Services
+          </Link>
+        </div>
+        <div className="relative w-64 hidden md:block">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
           <Input
-            placeholder="Search projects..."
+            placeholder="Search..."
             className="pl-9 h-10 rounded-full bg-gray-100 border-0 text-sm focus:ring-2 focus:ring-gray-200 focus-visible:ring-gray-200 focus-visible:ring-offset-0"
             onChange={(e) => onSearch(e.target.value)}
           />
@@ -57,7 +91,11 @@ const TopNavigation = ({
             <TooltipTrigger asChild>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="relative rounded-full h-9 w-9 bg-gray-100 hover:bg-gray-200 transition-colors">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative rounded-full h-9 w-9 bg-gray-100 hover:bg-gray-200 transition-colors"
+                  >
                     <Bell className="h-4 w-4 text-gray-700" />
                     {notifications.length > 0 && (
                       <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-medium border border-white">
@@ -66,11 +104,19 @@ const TopNavigation = ({
                     )}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="rounded-xl overflow-hidden p-2 border border-gray-200 shadow-lg">
-                  <DropdownMenuLabel className="text-sm font-medium text-gray-900 px-2">Notifications</DropdownMenuLabel>
+                <DropdownMenuContent
+                  align="end"
+                  className="rounded-xl overflow-hidden p-2 border border-gray-200 shadow-lg"
+                >
+                  <DropdownMenuLabel className="text-sm font-medium text-gray-900 px-2">
+                    Notifications
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator className="my-1 bg-gray-100" />
                   {notifications.map((notification) => (
-                    <DropdownMenuItem key={notification.id} className="rounded-lg text-sm py-2 focus:bg-gray-100">
+                    <DropdownMenuItem
+                      key={notification.id}
+                      className="rounded-lg text-sm py-2 focus:bg-gray-100"
+                    >
                       {notification.title}
                     </DropdownMenuItem>
                   ))}
@@ -89,24 +135,34 @@ const TopNavigation = ({
                 src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`}
                 alt={user.email || ""}
               />
-              <AvatarFallback>
-                {user.email?.[0].toUpperCase()}
-              </AvatarFallback>
+              <AvatarFallback>{user.email?.[0].toUpperCase()}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="rounded-xl border-none shadow-lg">
-            <DropdownMenuLabel className="text-xs text-gray-500">{user.email}</DropdownMenuLabel>
+          <DropdownMenuContent
+            align="end"
+            className="rounded-xl border-none shadow-lg"
+          >
+            <DropdownMenuLabel className="text-xs text-gray-500">
+              {user.email}
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
-              <User className="mr-2 h-4 w-4" />
-              Profile
+            <DropdownMenuItem className="cursor-pointer" asChild>
+              <Link to="/profile">
+                <User className="mr-2 h-4 w-4" />
+                Profile
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
+            <DropdownMenuItem className="cursor-pointer" asChild>
+              <Link to="/dashboard">
+                <Settings className="mr-2 h-4 w-4" />
+                Dashboard
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer" onSelect={() => signOut()}>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onSelect={() => signOut()}
+            >
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
