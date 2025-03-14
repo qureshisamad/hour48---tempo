@@ -33,7 +33,8 @@ export default function SignUpForm() {
             full_name: fullName,
             user_type: userType,
           },
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          emailRedirectTo: `${window.location.origin}/verify-otp`,
+          // Use OTP verification instead of magic links
         },
       });
 
