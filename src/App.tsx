@@ -31,6 +31,7 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/test" element={<Dashboard />} />
         <Route
           path="/dashboard"
           element={
@@ -39,12 +40,7 @@ function AppRoutes() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/success"
-          element={
-            <Success />
-          }
-        />
+        <Route path="/success" element={<Success />} />
       </Routes>
       {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
     </>

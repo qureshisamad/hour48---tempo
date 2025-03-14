@@ -19,10 +19,11 @@ export default function SignUpForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // await signUp(email, password, fullName);
-      navigate("/");
+      await signUp(email, password, fullName);
+      navigate("/dashboard");
     } catch (error) {
-      setError("Error creating account");
+      console.error("Signup error:", error);
+      setError("Error creating account: " + (error as Error).message);
     }
   };
 

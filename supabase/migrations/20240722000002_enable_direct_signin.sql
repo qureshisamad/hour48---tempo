@@ -1,0 +1,3 @@
+-- Enable direct sign-in without email verification
+-- This needs to be done in the Supabase dashboard under Authentication > Settings > Email Auth
+-- as the auth.config table is not directly accessible via SQL migrations
