@@ -7,10 +7,6 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables')
 }
 
-// Get the current hostname
-const hostname = window.location.hostname
-const isDevelopment = hostname === 'localhost' || hostname === '127.0.0.1'
-
 export const supabase = createClient(supabaseUrl!, supabaseAnonKey!, {
   auth: {
     persistSession: true,
@@ -20,9 +16,9 @@ export const supabase = createClient(supabaseUrl!, supabaseAnonKey!, {
   },
   global: {
     headers: {
-      'Access-Control-Allow-Origin': isDevelopment 
-        ? '*' 
-        : process.env.VITE_VERCEL_URL || window.location.origin
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     }
   }
 })
