@@ -51,13 +51,23 @@ export default function OTPVerification() {
 
     setLoading(true);
     try {
-      const { error } = await supabase.auth.verifyOtp({
-        email,
-        token: otp,
-        type: "signup",
-      });
+      // First check if user exists and is already confirmed
+      const { data: userData } = await supabase.auth.getUser();
 
-      if (error) throw error;
+      // If user is already confirmed, we can skip verification
+      const isAlreadyConfirmed =
+        userData?.user && userData.user.email_confirmed_at;
+
+      if (!isAlreadyConfirmed) {
+        // Verify OTP for signup or signin
+        const { error } = await supabase.auth.verifyOtp({
+          email,
+          token: otp,
+          type: "email",
+        });
+
+        if (error) throw error;
+      }
 
       // Create the appropriate profile based on user type
       if (userType === "technician") {
@@ -101,10 +111,12 @@ export default function OTPVerification() {
   const handleResendOTP = async () => {
     setLoading(true);
     try {
+      // Use signInWithOtp with emailRedirectTo to ensure proper redirection
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: false,
+          emailRedirectTo: `${window.location.origin}/verify-otp`,
         },
       });
 

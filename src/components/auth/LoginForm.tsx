@@ -56,6 +56,7 @@ export default function LoginForm() {
         email,
         options: {
           shouldCreateUser: false,
+          emailRedirectTo: `${window.location.origin}/verify-otp`,
         },
       });
 
