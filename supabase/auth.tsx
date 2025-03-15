@@ -10,7 +10,6 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Using named function declaration instead of arrow function for consistent component exports
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,7 +44,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Using named function declaration for consistent exports
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {

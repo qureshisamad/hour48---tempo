@@ -19,6 +19,7 @@ export default function OTPVerification() {
   const email = location.state?.email || "";
   const userType = location.state?.userType || "client";
   const fullName = location.state?.fullName || "";
+  const from = location.state?.from || "/dashboard";
 
   useEffect(() => {
     if (!email) {
