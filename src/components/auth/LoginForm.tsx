@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import AuthLayout from "./AuthLayout";
+import CorsTest from "./CorsTest";
+import AuthSetup from "./AuthSetup";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -202,6 +204,13 @@ export default function LoginForm() {
           </Link>
         </div>
       </div>
+
+      {window.location.hostname === "localhost" && (
+        <div className="mt-8 max-w-md mx-auto">
+          <CorsTest />
+          <AuthSetup />
+        </div>
+      )}
     </AuthLayout>
   );
 }
