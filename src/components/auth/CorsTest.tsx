@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "../../../supabase/supabase";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function CorsTest() {
   const [result, setResult] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const testCors = async () => {
     setLoading(true);
@@ -15,9 +17,18 @@ export default function CorsTest() {
       if (error) throw error;
 
       setResult(JSON.stringify(data, null, 2));
+      toast({
+        title: "CORS Test Complete",
+        description: "CORS test completed successfully.",
+      });
     } catch (error) {
       console.error("CORS test error:", error);
       setResult(`Error: ${(error as Error).message}`);
+      toast({
+        title: "CORS Test Failed",
+        description: (error as Error).message,
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
