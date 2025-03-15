@@ -24,8 +24,7 @@ export default function SignUpForm() {
     setError("");
 
     try {
-      // Create user with OTP verification
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -34,31 +33,40 @@ export default function SignUpForm() {
             user_type: userType,
           },
           emailRedirectTo: `${window.location.origin}/verify-otp`,
-          // Use OTP verification instead of magic links
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Signup error details:", error);
+        throw error;
+      }
 
-      toast({
-        title: "Verification email sent",
-        description: "Please check your email for the verification code",
-      });
+      if (data.user) {
+        toast({
+          title: "Success",
+          description: "Please check your email for the verification code",
+        });
 
-      // Navigate to OTP verification page
-      navigate("/verify-otp", {
-        state: {
-          email,
-          userType,
-          fullName,
-        },
+        navigate("/verify-otp", {
+          state: {
+            email,
+            userType,
+            fullName,
+          },
+        });
+      }
+    } catch (error: any) {
+      console.error("Error details:", {
+        message: error.message,
+        status: error.status,
+        name: error.name,
+        stack: error.stack
       });
-    } catch (error) {
-      console.error("Signup error:", error);
-      setError("Error creating account: " + (error as Error).message);
+      
+      setError(error.message || "Failed to create account");
       toast({
-        title: "Signup Failed",
-        description: (error as Error).message,
+        title: "Error",
+        description: error.message || "Failed to create account",
         variant: "destructive",
       });
     } finally {
