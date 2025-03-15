@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../../supabase/supabase";
+import { supabase } from "../../../supabase/supabase.ts";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/ui/loading-spinner";
 import { useToast } from "@/components/ui/use-toast";
 import { Clock, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import TopNavigation from "../dashboard/layout/TopNavigation";
 
 interface Service {
   id: string;
@@ -51,6 +52,7 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-[#f5f5f7] pt-16">
+      <TopNavigation />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">

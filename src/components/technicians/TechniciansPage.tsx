@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../../supabase/supabase";
+import { supabase } from "../../../supabase/supabase.ts";
 import TechnicianGrid from "./TechnicianGrid";
 import { TechnicianProps } from "./TechnicianCard";
 import { LoadingScreen } from "@/components/ui/loading-spinner";
 import { useToast } from "@/components/ui/use-toast";
+import TopNavigation from "../dashboard/layout/TopNavigation";
 
 export default function TechniciansPage() {
   const [loading, setLoading] = useState(true);
@@ -76,6 +77,7 @@ export default function TechniciansPage() {
 
   return (
     <div className="min-h-screen bg-[#f5f5f7] pt-16">
+      <TopNavigation />
       <TechnicianGrid technicians={technicians} />
     </div>
   );

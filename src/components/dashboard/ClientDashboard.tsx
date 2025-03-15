@@ -12,8 +12,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Calendar, Clock, MapPin, Star, ThumbsUp } from "lucide-react";
-import { supabase } from "../../../supabase/supabase";
-import { useAuth } from "../../../supabase/auth";
+import { supabase } from "../../../supabase/supabase.ts";
+import { useAuth } from "../../../supabase/auth.tsx";
 import { format } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -105,7 +105,7 @@ export default function ClientDashboard() {
           `,
           )
           .eq("client_id", clientData.id)
-          .order("booking_date", { ascending: true });
+          .order("booking_date", { ascending: false });
 
         if (error) throw error;
 
